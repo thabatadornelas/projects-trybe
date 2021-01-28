@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webchat</title>
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="http://chancejs.com/chance.min.js"></script>
+</head>
+<body>
+  <h1>Webchat</h1>
+  <form id="webchat">
+    <h2 id="aleatorio"></h2>
+    <input
+    type="text"
+    data-testid="nickname-box"
+    name="nickname-box"
+    placeholder="inserir nickname"
+    id="name"
+  />
+  <button type="submit" data-testid="nickname-save" id="nickname-save">Salvar</button>
+  <input
+  type="text"
+  data-testid="message-box"
+  id="idMessageBox"
+  name="message-box"
+  placeholder="Digite sua mensagem"
+/>
+<button type="submit" data-testid="send-button" id="send-button">Enviar</button><br />
+<h2>Mensagens:</h2>
+<div id="messages"></div>
+<h3>Online:</h3>
+<ul id="onlineUser"></ul>
+
+  </form>
+  <script>
+    const socket = io('http://localhost:3000');
+
+    let User = chance.name();
+    $('#aleatorio').text(User);
+
+    const renderMessage = (message) => {
+      $('#messages').append('<div data-testid="message">' + message + '</div>');
+    };
+
+    const renderHistory = (history) => {
+      $('#messages').append('<div data-testid="message">' + history + '</div>');
+    };
+
+    const renderConectados = (connected) => {
+      $('#onlineUser').append('<li data-testid="online-user">' + connected + '</li>');
+    };
+
+    socket.on('message', renderMessage);
+    socket.on('Historico', renderHistory);
+    socket.on('online', renderConectados);
+
+    $('#send-button').click((e) => {
+      e.preventDefault();
+      let chatMessage = $('#idMessageBox').val();
+      let nickname = $('#aleatorio').text();
+      socket.emit('message', { chatMessage, nickname })
+    });
+
+
+    $('#nickname-save').click((e) => {
+      e.preventDefault();
+      let nickname = $('#name').val();
+      socket.emit('changeName', { nickname });
+      $('#aleatorio').text(nickname);
+    });
+
+    $(function() {
+        $("input").keydown(function(key) {
+          if(key.keyCode === 13) {
+            socket.emit('msg', $(this).val());
+            $(this).val('');
+          }
+        })
+      });
+
+  </script>
+</body>
+
+</html>
