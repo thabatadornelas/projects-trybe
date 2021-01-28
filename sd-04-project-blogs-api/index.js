@@ -1,17 +1,4 @@
-const express = require('express');
+const createToken = require('./createToken');
+const validateToken = require('./validateToken');
 
-const router = require('./Routers');
-
-const app = express();
-
-app.use(express.json());
-
-app.get('/', (request, response) => {
-  response.send();
-});
-
-app.use('/user', router.userRouter);
-app.use('/login', router.loginRouter);
-app.use('/post', router.postsRouter);
-
-app.listen(3000, () => console.log('ouvindo porta 3000!'));
+module.exports = { createToken, validateToken };
