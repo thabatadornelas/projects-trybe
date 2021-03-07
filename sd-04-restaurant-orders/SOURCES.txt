@@ -1,0 +1,9 @@
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+restaurant_orders.egg-info/PKG-INFO
+restaurant_orders.egg-info/SOURCES.txt
+restaurant_orders.egg-info/dependency_links.txt
+restaurant_orders.egg-info/requires.txt
+restaurant_orders.egg-info/top_level.txt
