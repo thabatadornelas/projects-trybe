@@ -1,0 +1,8 @@
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+project_algorithms.egg-info/PKG-INFO
+project_algorithms.egg-info/SOURCES.txt
+project_algorithms.egg-info/dependency_links.txt
+project_algorithms.egg-info/top_level.txt
